@@ -47,29 +47,12 @@ public:
 
 private slots:
     void onButtonClick(int row, int col) {
-        std::cout<<"按动了"<<row<<" "<<col<<std::endl;
         currentPlayer=nextPlayer;
         nextPlayer=(currentPlayer==1? 2 : 1 );
 
         board[row][col] = currentPlayer;
-        std::cout<<"它的状态是"<<board[row][col]<<std::endl;
-        for(int i=row-1;i<row+2;i++){
-            for(int j=col-1;j<col+2;j++){
-                    if(i>=0&&i<=7&&j>=0&&j<=7&&board[i][j]==nextPlayer){
-                    int changeColorTimes=0,currentRow=row,currentCol=col;
 
-                    if(changeColor(row-i,i,col-j,j,changeColorTimes)){
-                        int horizontalDir=row-i,verticalDir=col-j;
-
-                        for(int time=0;time<changeColorTimes;time++){
-                            currentRow-=horizontalDir;
-                            currentCol-=verticalDir;
-                            board[currentRow][currentCol]=currentPlayer;
-                        }
-                    }
-                }
-            }
-        }
+        annex (row,col);
         updateBoard();
     }
 
@@ -87,6 +70,25 @@ private:
     //options the player can choose
     int nextPlayerOptions=0;
     int currentPlayerOptions=0;
+
+    //after clicked, analyse which pieces will be annexed(call changeColor), and then annex them
+    void annex (const int &row,const int &col){
+        for(int i=row-1;i<row+2;i++){
+            for(int j=col-1;j<col+2;j++){
+                    if(i>=0&&i<=7&&j>=0&&j<=7&&board[i][j]==nextPlayer){
+                    int changeColorTimes=0,currentRow=row,currentCol=col;
+                    if(changeColor(row-i,i,col-j,j,changeColorTimes)){
+                        int verticalDir=row-i,horizontalDir=col-j;
+                        for(int time=0;time<changeColorTimes;time++){
+                            currentRow-=verticalDir;
+                            currentCol-=horizontalDir;
+                            board[currentRow][currentCol]=currentPlayer;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Function to update the board UI based on the 'board' data
     void updateBoard() {
@@ -107,16 +109,13 @@ private:
             }
         }
     }
-
+    //mainly analyse the tricky situation when one player have to pass, and analyse further whether the game is over, if so, show the result of the game
     void passAnalyse(){
-        if(nextPlayerOptions==0){   //to 
-            std::cout<<nextPlayer<<"没有prompt了"<<std::endl;
+        if(nextPlayerOptions==0){
             currentPlayer=nextPlayer;
             nextPlayer=(currentPlayer==1? 2 : 1 );
             showPromptAndScores(currentPlayerScores,currentPlayerOptions);
-            std::cout<<"另外一个哥们的分数是"<<currentPlayerScores<<"prompt是"<<currentPlayerOptions<<std::endl;
             if(currentPlayerOptions==0){
-                std::cout<<nextPlayer<<"也没有prompt了"<<std::endl;
                 if(nextPlayerScores>currentPlayerScores){
                     currentStatusText=((nextPlayer != 1) ? "●" : "○" ) + QString("  WIN");
                     game_status->setText(currentStatusText);
@@ -131,15 +130,12 @@ private:
                 }
             }
             else{
-                std::cout<<nextPlayer<<"还有prompt"<<std::endl;
                 currentStatusText=((currentPlayer == 1) ? "●" : "○" )+ QString("  PASS");
                 currentStatusText+=QString("\nTurn:  ") + ((nextPlayer != 1) ? "○" : "●" ) + "  Scores:  "+ QString::number(currentPlayerScores);
                 game_status->setText(currentStatusText);
-
-                std::cout<<currentPlayer<<"pass"<<std::endl;
             }
         }
-        else{
+        else{   //also, this function analyse the more common situation when the no one will pass
             currentStatusText = QString("Turn:  ") + ((nextPlayer == 1) ? "●" : "○" ) + "  Scores:  "+ QString::number(nextPlayerScores);
             game_status->setText(currentStatusText);
         }
@@ -162,11 +158,11 @@ private:
         }
     }
 
-    void extendDecide(int horizontalDir,int row,int verticalDir,int col,int &options){
-        int i=row-horizontalDir;
-        int j=col-verticalDir;
+    void extendDecide(int verticalDir,int row,int horizontalDir,int col,int &options){
+        int i=row-verticalDir;
+        int j=col-horizontalDir;
         if(i>=0&&i<=7&&j>=0&&j<=7){
-            if(board[i][j]==currentPlayer) extendDecide(horizontalDir,i,verticalDir,j,options);
+            if(board[i][j]==currentPlayer) extendDecide (verticalDir,i,horizontalDir,j,options);
             else if(board[i][j]==0||board[i][j]==3){
                 board[i][j]=3;
                 options++;
@@ -175,14 +171,14 @@ private:
         }
     }
 
-    bool changeColor(int horizontalDir,int row,int verticalDir,int col,int &times){
-        int i=row-horizontalDir;
-        int j=col-verticalDir;
+    bool changeColor(int verticalDir,int row,int horizontalDir,int col,int &times){
+        int i=row-verticalDir;
+        int j=col-horizontalDir;
         times++;
         if(i>=0&&i<=7&&j>=0&&j<=7){
             if(board[i][j]==currentPlayer) return true;
             else if(board[i][j]==nextPlayer){
-                if(changeColor(horizontalDir,i,verticalDir,j,times)){
+                if(changeColor(verticalDir,i,horizontalDir,j,times)){
                     return true;
                 }
                 else return false;
@@ -255,6 +251,7 @@ private slots:
     void accept() override {
         // Collect the configuration settings into the MyConfig object
         config.username = usernameLineEdit->text();
+
         config.port = portLineEdit->text().toInt();
         config.enableFeature = enableFeatureCheckBox->isChecked();
 
@@ -264,7 +261,6 @@ private slots:
         // Close the dialog
         QDialog::accept();
     }
-
     
 
 private:
@@ -274,7 +270,6 @@ private:
     QLineEdit* usernameLineEdit;  
     QLineEdit* portLineEdit;
     QCheckBox* enableFeatureCheckBox;
-
 
     QPushButton* okButton;
     QPushButton* cancelButton;
