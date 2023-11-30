@@ -49,6 +49,7 @@
 // class Cat:public Animal{
 // public:
 //     void speak(){cout<<"喵喵喵"<<endl;}
+       //也可以写成 void speak() override {...}  override关键字是用来显著标注这个函数是覆写基类虚函数的
 //     int a;
 // };
 // void doSpeak(Animal &dongwu){
