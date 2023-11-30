@@ -109,3 +109,10 @@ int main(){
 // b1_ref.ViewAcct(); // use Brass::ViewAcct()
 // b2_ref.ViewAcct(); // use BrassPlus::ViewAcct()
 
+// 第三，如果没有使用指针或者引用，尽管有虚函数也不会发生动态绑定（动态绑定在
+// 使用指针或引用调用虚函数时发生，而不是在使用对象调用虚函数时。）
+// Brass dom("Dominic Banker", 11224, 4183.45);
+// BrassPlus dot("Dorothy Banker", 12118, 2592.00);
+// dom.ViewAcct(); // use Brass::ViewAcct()
+// dot.ViewAcct(); // use BrassPlus::ViewAcct()
+
