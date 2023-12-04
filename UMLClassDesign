@@ -1,0 +1,34 @@
+指路B站：6分钟学会UML类图
+1.在类的成员名的开头放一些可见性符号
+  - private
+  + public
+  # protected
+  ~ package||default(表示在同一个包里面的类都能访问)(较少用)
+  然后是抽象类类名用斜体表示，或者是<<类名>>
+（图传不上来一点）
+
+2.
+    2)inheritance（子类 is-a 父类）
+      箭头指向基类
+    
+    3)association
+      用一条线把两个类连在一起，线上可以用字标上什么关联（比如吃与被吃等）
+    
+    4)aggregation 是一种特殊的association
+    就是比如两个类的关系是车和停车场的关系，车里面有一部分在停车场，一部分不在
+    用空心菱形去标记
+    
+    5)composition（has-a,也不存在什么子类父类的关系）
+    用实心菱形表示
+
+3.multiplicity
+比如说vistor center和lobby以及bathroom是composition关系。
+然后就可以在visitor center 和 lobby 相连的带实心菱形的线上标一个1。因为一个
+visitor center 就一个 lobby 嘛
+bathroom至少有一个，所以就可以在visitor center 和 bathroom 相连的带实心菱
+形的线上标一个1..
+以及 0..1 ：zero to one（也可省略不写）
+     n：specific number
+     0..*: zero to many（就是说这个值是在一个闭区间内，左端点是0）
+     1..*: one to many
+     m..n : 就是[m,n]内的一个值
