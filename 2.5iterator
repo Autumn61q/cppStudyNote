@@ -1,0 +1,45 @@
+容器：vector
+算法：for_each
+迭代器：vertor<int>::iterator
+
+STL里面每个容器的使用都要包含头文件
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+void myPrint(int val){
+    cout<<val<<endl;
+}
+
+void test01(){
+    vector<int> v;
+
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    //access elements in vector
+
+    //遍历方法1
+
+    // // 冒号前面是说这个迭代器是vector<int>作用域下的迭代器，itBegin是程序员
+    // //定义的变量名,v.begin是起始迭代器。指向容器的第一个元素
+    // vector<int>::iterator itBegin=v.begin();
+    // //还有一个迭代器，叫做结束迭代器.指向容器中最后一个元素的下一个位置
+    // vector<int>::iterator itEnd=v.end();
+    // while(itBegin!=itEnd){
+    //     cout<<*itBegin<<endl;
+    //     itBegin++;
+    // }
+
+    //遍历方法2
+
+    for(vector<int>::iterator it=v.begin();it!=v.end();it++){
+        cout<<*it<<endl;
+    }
+
+    //遍历方式3：利用STL中提供的遍历算法for_each.需要包含算法的头文件algorithm
+    for_each(v.begin(),v.end(),myPrint)；//myPrint()不用写括号   //这个调用myPrint是一个callback(回调)
+}
