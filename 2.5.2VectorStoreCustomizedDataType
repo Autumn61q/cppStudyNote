@@ -1,1 +1,33 @@
 容器存放自定义数据类型
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Person{
+public:
+    Person(int age):age(age){}
+    Person(){}
+    int age;
+};
+
+int main(){
+    Person p1,p2,p3;
+    p1.age=1;
+    p2.age=2;
+    p3.age=3;
+    // //如何在vector里面放类对象
+    // vector<Person> v={p1,p2,p3};//p1,p2,p3必须要初始化才能加在vector里面
+    // for(vector<Person>::iterator it=v.begin();it!=v.end();it++) cout<<(*it).age<<endl;
+    // //或者
+    // for(vector<Person>::iterator it=v.begin();it!=v.end();it++) cout<<it->age<<endl;
+    
+    //如何在vector里面放类对象的指针
+    // vector<Person*> p=(3,new Person(1));//不要写成vector<*Person>
+    // for(vector<Person>::iterator it=p.begin();it!=p.end();it++){
+    //     cout<<it->age<<endl;
+    //     delete it;
+    // }
+    vector<Person*> p={&p1,&p2,&p3};
+    for(vector<Person*>::iterator it=p.begin();it!=p.end();it++) cout<<(**it).age<<endl;//或者cout<<(*it)->age<<endl;
+    return 0;
+}
