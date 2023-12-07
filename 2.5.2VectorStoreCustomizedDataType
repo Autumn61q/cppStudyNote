@@ -29,5 +29,13 @@ int main(){
     // }
     vector<Person*> p={&p1,&p2,&p3};
     for(vector<Person*>::iterator it=p.begin();it!=p.end();it++) cout<<(**it).age<<endl;//或者cout<<(*it)->age<<endl;
+
+    //vector嵌套vector
+    vector<vector<int> > v(3,vector<int>(2,1));//不要写成vector<vector<int> > v=(3,vector<int>(2,1));
+    for(vector<vector<int> >::iterator it=v.begin();it!=v.end();it++){ //(*it)是vector<int>(最外面的vector<>是什么，*it就是什么)
+        for(vector<int>::iterator that=(*it).begin();that!=(*it).end();that++) cout<<*that<<" ";
+        cout<<endl;
+    }
     return 0;
 }
+
