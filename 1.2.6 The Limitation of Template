@@ -1,0 +1,49 @@
+the versatility of template is not almighty
+然后我们会引出具体化模版。
+利用具体化的模板，可以解决自定义类型的通用化
+学习模板并不是为了写模板，而是在STL中可以系统地使用模板
+
+such as:
+1.you cannot implement the code if a and b are arrays
+template<class T>
+void assign(T &a,T &b){
+    a=b;//because initialized array is not a modifiable lvalue
+}
+2.you can not implement the code if a and b are customize data type such as a class Person
+template<class T>
+void lt(T a,T b){
+  if(a>b){...}
+}
+
+ to solve the problems mentioned above, c++ provide overload of template,which can provide concrete template for specific type
+
+ for 2:
+ //利用具体化Person的版本实现代码，具体化优先调用
+ （根据C++的规定，优先选择普通函数或者模板特化函数作为
+  调用的函数实例，如果无法匹配，则选择函数模板，最后是
+  隐式类型转换成与普通函数或者模板特化函数的类型匹配。）
+  
+  语法详见下例：
+class Person{
+    public:
+    Person(int a):age(a){}
+    int age;
+};
+
+template<class T>
+bool foo(T &a,T &b){
+    if(a==b) return true;
+    return false;
+}
+
+template<> bool foo(Person &a,Person &b){
+    if(a.age==b.age) return true;
+    return false;
+}
+
+int main(){
+    Person p1(2);
+    Person p2(5);
+    cout<<foo(p1,p2)<<endl;
+    return 0;
+}
