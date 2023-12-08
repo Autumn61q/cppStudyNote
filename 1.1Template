@@ -1,0 +1,12 @@
+模版可以提高复用性（就是跟那些PPT模版挺像的）
+模版不可以直接使用，它只是一个框架
+模板的通用不是万能的
+
+C++中的编程思想除了面向对象外，还有另一个叫泛型编程（generic programming）
+the main technique in generic programming is module
+there are two kinds of mechanism of template: function template & class template
+
+the syntax of template:
+
+the effect of template:
+construct a generic function without appointed the type of return value and arguement
