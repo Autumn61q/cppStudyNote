@@ -8,5 +8,9 @@ there are two kinds of mechanism of template: function template & class template
 
 the syntax of template:
 
-the effect of template:
-construct a generic function without appointed the type of return value and arguement
+  the effect of template:
+  construct a generic function without appointed the type of return value and arguement, just use a vitrtual type to represent
+
+  syntax:
+  template<typename T>
+  the declaration or definition
