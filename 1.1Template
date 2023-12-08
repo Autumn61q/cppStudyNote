@@ -1,4 +1,4 @@
-模版可以提高复用性（就是跟那些PPT模版挺像的）
+模版可以提高复用性（就是跟那些PPT模版挺像的）,将类型参数化
 模版不可以直接使用，它只是一个框架
 模板的通用不是万能的
 
@@ -6,11 +6,92 @@ C++中的编程思想除了面向对象外，还有另一个叫泛型编程（ge
 the main technique in generic programming is module
 there are two kinds of mechanism of template: function template & class template
 
-the syntax of template:
+1.2.1the syntax of function template:
 
-  the effect of template:
+  the effect of function template:
   construct a generic function without appointed the type of return value and arguement, just use a vitrtual type to represent
 
   syntax:
   template<typename T>
   the declaration or definition
+  (hint: template--means the declaration of constructing a template
+         typename--means that the notation behind it can be a kind of data type, can be replaced by clas
+         T--generic data type, the name "T" can be replaced(usually use uppercase)
+  )
+
+#include<iostream>
+using namespace std;
+
+template<typename T>//don't add semicolon
+void mySwap(T &a,T &b){
+    T temp=a;
+    a=b;
+    b=temp;
+}
+
+int main(){
+    int a=10;
+    int b=5;
+
+    //two ways to use this template
+    //1.automatic type derivation(自动类型推导)
+    mySwap(a,b);
+
+    //2.show specific type
+    mySwap<int>(a,b);
+    
+    return 0;
+}
+
+1.2.2 does and doesn't of function template
+
+1. if we want to use automatic type derivation,we have to deduce the same type T at firstly
+2. we have to identify the specific data type of T then we can use the template
+
+look at this example:
+#include<iostream>
+using namespace std;
+
+template<typename T>//don't add semicolon
+void foo(){
+    cout<<"this is foo"<<endl;
+}
+
+int main(){
+
+    // foo(); can't do like this. because we have to identify the type of T
+    // you should write like this:
+    foo<int>();
+    return 0;
+}
+
+1.2.3再扔一个case进来
+#include<iostream>
+#include<string>
+using namespace std;
+
+template<typename T>//don't add semicolon
+void sort(T a[],int length){
+    for(int i=0;i<length-1;i++){
+        for(int j=0;j<length-1-i;j++){
+            if(a[j]>a[j+1]){
+                T tem=a[j];
+                a[j]=a[j+1];
+                a[j+1]=tem;
+            }
+        }
+    }
+}
+
+int main(){
+    // int arr1[]={2,3,5,1,2,7};
+    // int len1=sizeof(arr1)/sizeof(int);
+    // sort<int>(arr1,len1);
+    // for(int i=0;i<len1;i++) cout<<arr1[i]<<endl;
+
+    char arr2[]={'2','3','5','1','2','7'};
+    int len2=sizeof(arr2)/sizeof(char);
+    sort<char>(arr2,len2);
+    for(int i=0;i<len2;i++) cout<<arr2[i]<<endl;
+    return 0;
+}
