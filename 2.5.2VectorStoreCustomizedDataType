@@ -22,11 +22,6 @@ int main(){
     // for(vector<Person>::iterator it=v.begin();it!=v.end();it++) cout<<it->age<<endl;
     
     //如何在vector里面放类对象的指针
-    // vector<Person*> p=(3,new Person(1));//不要写成vector<*Person>
-    // for(vector<Person>::iterator it=p.begin();it!=p.end();it++){
-    //     cout<<it->age<<endl;
-    //     delete it;
-    // }
     vector<Person*> p={&p1,&p2,&p3};
     for(vector<Person*>::iterator it=p.begin();it!=p.end();it++) cout<<(**it).age<<endl;//或者cout<<(*it)->age<<endl;
 
@@ -39,3 +34,20 @@ int main(){
     return 0;
 }
 
+    //补充一个重要的例子。由输出的结果可以说明初始化的时候实际上只在堆区开辟了一个对象，然后用三个指针指向这一个对象。这是一个需要注意的问题
+    class Person{
+    public:
+        Person(int a):age(a){}
+        int age;
+    };
+    
+    int main(){
+        vector<Person*> p(3,new Person(1));//初始化的时候不要写等号！！
+        int times=0;
+        for(vector<Person*>::iterator it=p.begin();it!=p.end();it++){
+            (*it)->age=times;
+            times++;
+        }
+        for(vector<Person*>::iterator it=p.begin();it!=p.end();it++) cout<<(*it)->age<<endl;//全部输出2
+        return 0;
+    }
