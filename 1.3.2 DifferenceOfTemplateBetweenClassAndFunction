@@ -1,0 +1,18 @@
+类模板和函数模板的区别主要有两点：
+  1.类模板没有automatic type derivation
+  2.类模板在模板参数列表中可以有默认参数（template<三角括号里面就是模板参数列表>）
+
+关于第二点：
+template<class nameType,class ageType=int>
+class Person{
+    public:
+    Person(nameType n,ageType a):name(n),age(a){}
+    nameType name;
+    ageType age;
+};
+
+int main(){
+    Person<string> p1("Qiuiue",19);//int can be omitted there
+    p2.name="qiuqiu";
+    return 0;
+}
