@@ -1,3 +1,38 @@
 类模板中成员函数和普通类中成员函数的创建时机是有区别的：
-  普通类中的成员函数在一开始就可以创建
-  类模板中的成员函数在调用时才创建
+  普通类中的成员函数在编译阶段就会被创建
+  类模板中的成员函数只有在被实例化时才会被编译器创建（也就是说才能在编译阶段被创建）
+
+来看一个例子：
+在myClass<test1>的实例m中，T被实例化为test1类型。然后，
+m.show2()尝试调用T对象（即test1对象）的showtest2()成
+员函数。但是，test1类并没有定义showtest2()成员函数，因
+此编译器报错。
+class test1{
+    public:
+    void showtest1(){cout<<"test1 showing"<<endl;}
+};
+
+class test2{
+    public:
+    void showtest2(){cout<<"test2 showing"<<endl;}
+};
+
+template<class T>
+class myClass{
+    public:
+    T t;
+    void show1(){
+        t.showtest1();
+    }
+    void show2(){
+        t.showtest2();
+    }
+};
+
+int main(){
+    test1 t1;
+    myClass<test1> m;
+    m.t=t1;
+    //m.show2();error: ‘class test1’ has no member named ‘showtest2’; did you mean ‘showtest1’?
+    return 0;
+}
