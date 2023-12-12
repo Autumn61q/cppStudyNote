@@ -168,7 +168,7 @@ void MainWindow::RandomlyGenerate(){
     }
     if(blank.size()==0){
         if(whetherGameOver()){
-            QMessageBox::about(this, "Game Over","\nYour socres is "+QString::number(scores)+" ");
+            QMessageBox::about(this, "Game Over","\nYour scores is "+QString::number(scores)+" ");
             return;
         }
     }
@@ -179,7 +179,7 @@ void MainWindow::RandomlyGenerate(){
         int value=randomGenerator.bounded(10);
         if(value==9) grid[i][j]=4;
         else grid[i][j]=2;
-        qDebug()<<"change "<<i<<" "<<j<<"into "<<grid[i][j];
+        qDebug()<<"random choose "<<i<<" "<<j<<"into "<<grid[i][j];
     }
 }
 
@@ -205,15 +205,31 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            qDebug().nospace()<<grid[i][j]<<" ";
+        }
+        qDebug()<<"\n";
+    }
     // check whether the game is over & (if not) generate a new tile
     RandomlyGenerate();
+
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            qDebug()<<grid[i][j]<<" ";
+        }
+        qDebug()<<"\n";
+    }
     update();
 }
 
 
 void MainWindow::findNonBlank(int i,int j,int hdir,int vdir,int &times)
 {
-    if(i>=4||j>=4||i<0||j<0) return;
+    if(i>=4||j>=4||i<0||j<0){
+        times--;
+        return;
+    }
     if(grid[i][j]==0){
         times++;
         findNonBlank(i+vdir,j+hdir,hdir,vdir,times);
@@ -226,13 +242,15 @@ bool MainWindow::findSameValue(int i,int j,int hdir,int vdir,int &times,int valu
     if(i>=4||j>=4||i<0||j<0) return false;
     times++;
     if(grid[i][j]==0){
-        findSameValue(i+vdir,j+hdir,hdir,vdir,times, value);
+        return findSameValue(i+vdir,j+hdir,hdir,vdir,times, value);
     }
     else{
-        if(grid[i][j]==value) return true;
+        if(grid[i][j]==value){
+            qDebug()<<"can merge!!";
+            return true;
+        }
         else return false;
     }
-    return false;
 }
 
 void MainWindow::pressUp()
@@ -242,7 +260,9 @@ void MainWindow::pressUp()
         for(int i=0;i<4;i++){
             int times=0;
             if(findSameValue(i+1,j,0,1,times,grid[i][j])){
+                qDebug()<<"will merge now";
                 grid[i][j]+=grid[i+times][j];
+                qDebug()<<"merge "<<i<<" "<<j<<"and"<<i+times<<" "<<j<<"into "<<grid[i][j];
                 scores+=grid[i][j];
                 grid[i+times][j]=0;
             }
@@ -255,7 +275,7 @@ void MainWindow::pressUp()
             int times=0;
             findNonBlank(i,j,0,1,times);
             grid[i][j]=grid[i+times][j];
-            qDebug()<<"change "<<i<<" "<<j<<"into "<<grid[i][j];
+            qDebug()<<"rearrange"<<i<<" "<<j<<"into "<<grid[i][j];
             grid[i+times][j]=0;
         }
     }
