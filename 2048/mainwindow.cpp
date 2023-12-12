@@ -13,6 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
+//    setFocusPolicy(Qt::ClickFocus);
+    setFocusPolicy(Qt::StrongFocus);
+
+
     initializeButton=new QPushButton("Start Game", this);
     initializeButton->setGeometry(60,400,200,50);
 
@@ -35,103 +39,96 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 
     //implementation of tiles
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
             painter.setPen(Qt::transparent);
-            painter.drawRect(j*60+40,i*60+120,55,55);//position coordinates of different squares
-            if(grid[i][j]==0){
-                //color of blank squares
-                painter.setBrush(Qt::gray);
+            if (grid[i][j] == 0) {
+                painter.setBrush(QColor(255, 250, 222, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
             }
-            else if(grid[i][j]==2){
-//                painter.setBrush(Qt::red);
-//                painter.setPen(Qt::black);
-//                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-//                // mark number 2 in the middle of the square
-//                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(2),QTextOption(Qt::AlignCenter));
-                painter.setBrush(Qt::red);
-                //painter.drawRect(j*60+40, i*60+120, 55, 55); // 绘制红色方格
-
+            else if (grid[i][j] == 2) {
+                painter.setBrush(QColor(255, 229, 168, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei", 10, 700, false));
-                painter.drawText(QRectF(j*60+40, i*60+120, 55, 55), QString::number(2), QTextOption(Qt::AlignCenter)); // 在方格中心绘制数字2
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(2), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==4){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 4) {
+                painter.setBrush(QColor(255, 197, 136, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(4),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(4), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==8){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 8) {
+                painter.setBrush(QColor(251, 179, 129, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(8),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(8), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==16){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 16) {
+                painter.setBrush(QColor(250, 160, 99, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(16),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(16), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==32){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 32) {
+                painter.setBrush(QColor(251, 103, 55, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(32),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(32), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==64){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 64) {
+                painter.setBrush(QColor(213, 92, 14, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(64),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(64), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==128){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 128) {
+                painter.setBrush(QColor(252, 161, 159, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(128),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(128), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==256){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 256) {
+                painter.setBrush(QColor(248, 126, 124, 147));
+                painter.drawRect(j *60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(256),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(256), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==512){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 512) {
+                painter.setBrush(QColor(255, 50, 80, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(512),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(512), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==1024){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 1024) {
+                painter.setBrush(QColor(188, 25, 22, 255));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(1024),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(1024), QTextOption(Qt::AlignCenter));
             }
-            else if(grid[i][j]==2048){
-                painter.setBrush(Qt::red);
+            else if (grid[i][j] == 2048) {
+                painter.setBrush(QColor(245, 69, 67, 15));
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(2048),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(2048), QTextOption(Qt::AlignCenter));
             }
-            else{
-                painter.setBrush(Qt::red);
+            else {
+                painter.setBrush(Qt::darkBlue);
+                painter.drawRect(j * 60 + 40, i * 60 + 120, 55, 55);
                 painter.setPen(Qt::black);
-                painter.setFont(QFont("Microsoft YaHei",10,700,false));
-                // mark number 2 in the middle of the square
-                painter.drawText(QRectF(j*60+40,i*60+120,55,55),QString::number(grid[i][j]),QTextOption(Qt::AlignCenter));
+                painter.setFont(QFont("微软雅黑", 10, 700, false));
+                painter.drawText(QRectF(j * 60 + 40, i * 60 + 120, 55, 55), QString::number(grid[i][j]), QTextOption(Qt::AlignCenter));
             }
         }
     }
@@ -184,6 +181,7 @@ void MainWindow::RandomlyGenerate(){
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    qDebug()<<"tm here";
     if(!state) return;
     switch(event->key()){
     case Qt::Key_Up:
@@ -229,6 +227,7 @@ bool MainWindow::findSameValue(int i,int j,int hdir,int vdir,int &times,int valu
         if(grid[i][j]==value) return true;
         else return false;
     }
+    return false;
 }
 
 void MainWindow::pressUp()
