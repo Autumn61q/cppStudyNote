@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
-//    setFocusPolicy(Qt::ClickFocus);
     setFocusPolicy(Qt::StrongFocus);
 
 
@@ -157,7 +156,6 @@ bool MainWindow::whetherGameOver(){
 }
 
 void MainWindow::RandomlyGenerate(){
-    qDebug()<<"call RandomlyGenerate()";
     QVector<QVector<int> > blank;
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -179,7 +177,6 @@ void MainWindow::RandomlyGenerate(){
         int value=randomGenerator.bounded(10);
         if(value==9) grid[i][j]=4;
         else grid[i][j]=2;
-        qDebug()<<"random choose "<<i<<" "<<j<<"into "<<grid[i][j];
     }
 }
 
@@ -188,11 +185,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(!state) return;
     switch(event->key()){
     case Qt::Key_Up:
-        qDebug()<<"enter up";
         pressUp();
         break;
     case Qt::Key_Down:
-        qDebug()<<"enter down";
         pressDown();
         break;
     case Qt::Key_Left:
@@ -205,21 +200,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            qDebug().nospace()<<grid[i][j]<<" ";
-        }
-        qDebug()<<"\n";
-    }
+    
     // check whether the game is over & (if not) generate a new tile
     RandomlyGenerate();
 
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            qDebug()<<grid[i][j]<<" ";
-        }
-        qDebug()<<"\n";
-    }
     update();
 }
 
@@ -244,14 +228,12 @@ bool MainWindow::findSameValue(int i,int j,int hdir,int vdir,int &times,int valu
     if(grid[i][j]==0){
         return findSameValue(i+vdir,j+hdir,hdir,vdir,times, value);
     }
-    else{
-        if(grid[i][j]==value){
-            qDebug()<<"can merge!!";
-            return true;
-        }
-        else return false;
+    if(grid[i][j]==value){
+        return true;
     }
+    return false;
 }
+
 
 void MainWindow::pressUp()
 {
@@ -260,9 +242,7 @@ void MainWindow::pressUp()
         for(int i=0;i<4;i++){
             int times=0;
             if(findSameValue(i+1,j,0,1,times,grid[i][j])){
-                qDebug()<<"will merge now";
                 grid[i][j]+=grid[i+times][j];
-                qDebug()<<"merge "<<i<<" "<<j<<"and"<<i+times<<" "<<j<<"into "<<grid[i][j];
                 scores+=grid[i][j];
                 grid[i+times][j]=0;
             }
@@ -274,40 +254,12 @@ void MainWindow::pressUp()
         for(int i=0;i<4;i++){
             int times=0;
             findNonBlank(i,j,0,1,times);
-            grid[i][j]=grid[i+times][j];
-            qDebug()<<"rearrange"<<i<<" "<<j<<"into "<<grid[i][j];
-            grid[i+times][j]=0;
+            if(times!=0){
+                grid[i][j]=grid[i+times][j];
+                grid[i+times][j]=0;
+            }
         }
     }
-
-    //    record another kind of implementation:
-
-    // firstly, rearrange the tiles
-    //    for(int j=0;j<4;j++){
-    //        for(int i=1;i<4;i++){
-    //            if(grid[i][j]==0) continue;
-    //            for(int p=0;p<i;p++){
-    //                if(grid[p][j]==0){
-    //                    grid[p][j]==grid[i][j];
-    //                    grid[i][j]==0;
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
-    // secondly, merge
-//    for(int j=0;j<4;j++){
-//        for(int i=0;i<3;i++){
-//            if(grid[i][j]==grid[i+1][j]){
-//                grid[i][j]+=grid[i][j];
-//                grid[i+1][j]=0;
-//            }
-//            for(int p=i+1;p<3;p++){
-//                grid[p][j]=grid[p+1][j];
-//                grid[p+1][j]=0;
-//            }
-//        }
-//    }
 }
 
 void MainWindow::pressDown()
@@ -329,8 +281,10 @@ void MainWindow::pressDown()
         for(int i=3;i>=0;i--){
             int times=0;
             findNonBlank(i,j,0,-1,times);
-            grid[i][j]=grid[i-times][j];
-            grid[i-times][j]=0;
+            if(times!=0){
+                grid[i][j]=grid[i-times][j];
+                grid[i-times][j]=0;
+            }
         }
     }
 }
@@ -354,8 +308,10 @@ void MainWindow::pressLeft()
         for(int j=0;j<4;j++){
             int times=0;
             findNonBlank(i,j,1,0,times);
-            grid[i][j]=grid[i][j+times];
-            grid[i][j+times]=0;
+            if(times!=0){
+                grid[i][j]=grid[i][j+times];
+                grid[i][j+times]=0;
+            }
         }
     }
 }
@@ -379,8 +335,10 @@ void MainWindow::pressRight()
         for(int j=3;j>=0;j--){
             int times=0;
             findNonBlank(i,j,-1,0,times);
-            grid[i][j]=grid[i][j-times];
-            grid[i][j-times]=0;
+            if(times!=0){
+                grid[i][j]=grid[i][j-times];
+                grid[i][j-times]=0;
+            }
         }
     }
 }
