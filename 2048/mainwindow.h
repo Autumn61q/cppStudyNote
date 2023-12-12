@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QVector>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
