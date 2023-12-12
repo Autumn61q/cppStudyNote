@@ -157,6 +157,7 @@ bool MainWindow::whetherGameOver(){
 }
 
 void MainWindow::RandomlyGenerate(){
+    qDebug()<<"call RandomlyGenerate()";
     QVector<QVector<int> > blank;
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -170,24 +171,28 @@ void MainWindow::RandomlyGenerate(){
             QMessageBox::about(this, "Game Over","\nYour socres is "+QString::number(scores)+" ");
             return;
         }
+    }
+    else{
         int num=randomGenerator.bounded(blank.size());
         int i=blank[num][0];
         int j=blank[num][1];
         int value=randomGenerator.bounded(10);
         if(value==9) grid[i][j]=4;
         else grid[i][j]=2;
+        qDebug()<<"change "<<i<<" "<<j<<"into "<<grid[i][j];
     }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    qDebug()<<"tm here";
     if(!state) return;
     switch(event->key()){
     case Qt::Key_Up:
+        qDebug()<<"enter up";
         pressUp();
         break;
     case Qt::Key_Down:
+        qDebug()<<"enter down";
         pressDown();
         break;
     case Qt::Key_Left:
@@ -250,6 +255,7 @@ void MainWindow::pressUp()
             int times=0;
             findNonBlank(i,j,0,1,times);
             grid[i][j]=grid[i+times][j];
+            qDebug()<<"change "<<i<<" "<<j<<"into "<<grid[i][j];
             grid[i+times][j]=0;
         }
     }
@@ -368,7 +374,10 @@ void MainWindow::slotStart()
             grid[i][j]=0;
         }
     }
-    initializeButton->setText("New Game");
+
+    if (initializeButton != nullptr) {
+        initializeButton->setText("New Game");
+    }
 
     int numberText1=randomGenerator.bounded(10);
     int numberText2=randomGenerator.bounded(10);
