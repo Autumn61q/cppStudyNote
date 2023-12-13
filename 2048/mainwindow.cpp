@@ -33,8 +33,10 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setBrush(Qt::blue);
     painter.setFont(QFont("Microsoft YaHei",20,700,false));
-
     painter.drawText(QPoint(20,60),"SCORES: "+QString::number(scores));
+
+    painter.setFont(QFont("Microsoft YaHei",15,600,true));
+    painter.drawText(QPoint(135,85),"+ "+QString::number(score));
 
 
     //implementation of tiles
@@ -166,7 +168,7 @@ void MainWindow::RandomlyGenerate(){
     }
     if(blank.size()==0){
         if(whetherGameOver()){
-            QMessageBox::about(this, "Game Over","\nYour scores is "+QString::number(scores)+" ");
+            QMessageBox::about(this, "Game Over","Your scores is "+QString::number(scores)+" ");
             return;
         }
     }
@@ -237,6 +239,7 @@ bool MainWindow::findSameValue(int i,int j,int hdir,int vdir,int &times,int valu
 
 void MainWindow::pressUp()
 {
+    score=0;
     //Firstly, merge the squares having the same value
     for(int j=0;j<4;j++){
         for(int i=0;i<4;i++){
@@ -244,6 +247,7 @@ void MainWindow::pressUp()
             if(findSameValue(i+1,j,0,1,times,grid[i][j])){
                 grid[i][j]+=grid[i+times][j];
                 scores+=grid[i][j];
+                score+=grid[i][j];
                 grid[i+times][j]=0;
             }
         }
@@ -264,6 +268,7 @@ void MainWindow::pressUp()
 
 void MainWindow::pressDown()
 {
+    score=0;
     //Firstly, merge the squares having the same value
     for(int j=0;j<4;j++){
         for(int i=3;i>=0;i--){
@@ -271,6 +276,7 @@ void MainWindow::pressDown()
             if(findSameValue(i-1,j,0,-1,times,grid[i][j])){
                 grid[i][j]+=grid[i-times][j];
                 scores+=grid[i][j];
+                score+=grid[i][j];
                 grid[i-times][j]=0;
             }
         }
@@ -291,6 +297,7 @@ void MainWindow::pressDown()
 
 void MainWindow::pressLeft()
 {
+    score=0;
     //Firstly, merge the squares having the same value
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -298,6 +305,7 @@ void MainWindow::pressLeft()
             if(findSameValue(i,j+1,1,0,times,grid[i][j])){
                 grid[i][j]+=grid[i][j+times];
                 scores+=grid[i][j];
+                score+=grid[i][j];
                 grid[i][j+times]=0;
             }
         }
@@ -318,6 +326,7 @@ void MainWindow::pressLeft()
 
 void MainWindow::pressRight()
 {
+    score=0;
     //Firstly, merge the squares having the same value
     for(int i=0;i<4;i++){
         for(int j=3;j>=0;j--){
@@ -325,6 +334,7 @@ void MainWindow::pressRight()
             if(findSameValue(i,j-1,-1,0,times,grid[i][j])){
                 grid[i][j]+=grid[i][j-times];
                 scores+=grid[i][j];
+                score+=grid[i][j];
                 grid[i][j-times]=0;
             }
         }
@@ -368,5 +378,6 @@ void MainWindow::slotStart()
     if(numberText2==9) grid[i2][j2]=4;
     else grid[i2][j2]=2;
     state=true;
+    score=0;
     update();
 }
