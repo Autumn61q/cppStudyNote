@@ -10,6 +10,69 @@ string管理char*所分配的内存，不用担心复制越界和取值越界等
 
 string构造函数：
 string(); //创建一个空的字符串
+  string s1;
 string(const char* s); //使用C风格字符串s初始化
-string(const string& str); //使用另一个string对象str初始化
+  const char* s2="草";
+  string s3(s2);
+string(const string& str); //使用另一个string对象str初始化// copy constructor
+  string s4(s1);
 string(int n, char c); //使用n个字符c初始化
+  string s5(2,3);
+
+string 的赋值操作：
+  string& operator=(const char* s);
+  string& operator=(const string& s);
+  string& operator=(char c);
+  string& assign(const char* s);
+  string& assign(const char* s,int n);//把字符串s的前n个字符赋给当前字符串
+  string& assign(const string& s);
+  string& assign(int n, char c);
+
+string拼接：
+  一般就是用+
+    (注意：你不能用string s="h"+"hh";不然报错)
+  或者是append这个函数
+  const char *s="Hello";
+  string s1="cao";
+  str.append(s);
+  str.append(s,2);// 把s的前2个字符拼接到str末尾
+  str.append(s1);
+  str.append(s1,0,1);//把s1从0开始的1个字符添加到str末尾（s1可以是const char*或者const &string）
+
+string的查找和替换：
+  string s1="abcde";
+  //查找
+  cout<<s1.find("de")<<endl;//输出起始下标 3
+  cout<<s1.find("df")<<endl;//输出乱码
+  // rfind是从右往左找
+  cout<<s1.find("de")<<endl;//输出起始下标 3
+  //替换
+  s1.replace(1,3,"1111");
+  cout<<s1<<endl;// print a1111e
+
+string比较：
+  这个函数的意义一般是判断两个字符串是否相等
+  通过ASCII进行比较
+  函数原型：
+    int compare(const string &s) const;
+    int compare(const char* s) const;
+    如果相等返回0，大于返回1，小于返回-1（主体是调用compare的string）
+
+string 字符存取：
+ char& operator[](int n);
+    cout<<s[1]<<endl;//就是访问它里面的单个字符
+    s[1]='3';//就是更改了s里面的内容
+  char& at(int n);//不说了
+
+string插入和删除：
+  string s1="abcde";
+  // 插入
+  s1.insert(1,"cao");// print acaobcde
+  cout<<s1<<endl;
+  // 删除
+  s1.erase(1,3);
+  cout<<s1<<endl; // print abcde
+
+string子串：
+  函数原型:
+    string substr(int pos=0, int n=npos) //返回由pos（索引）开始的n个字符组成的字符串
