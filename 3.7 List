@@ -1,0 +1,11 @@
+链表：
+  linked storage for data
+  discontinuous storage structure in physical storage unit, the logical order of data elements is achieved through the linking of pointers in the linked list.
+  组成：一系列结点
+    结点：存储元素的数据域 && 存储下一个元素的指针域
+  STL中的链表是一个双向循环链表
+  优点：可以对任意位置快速插入和删除元素；动态存储分配，不会造成浪费和溢出
+  缺点：遍历速度较慢；占用内存大
+  因为链表的存储方式并不是连续的内存空间，所以链表中的迭代器只支持迁移和后移，属于双向迭代器
+  链表的重要性质就是插入和删除操作都不会造成原有迭代器失效（对比vector）
+  
