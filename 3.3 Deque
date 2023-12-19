@@ -1,0 +1,73 @@
+deque:
+  双端数组，可以对头部进行插入删除操作
+
+deque与vector区别：与内部实现有关 // 除了区别之外，它们俩非常像
+ vector（单端数组）对于头部的插入删除效率低。数据量越大，效率越低
+ deque相对而言，对头部的插入删除速度回比vector快
+ vector访问元素时的速度会比deque快（vector是一段连续的内存空间）
+
+deque内部工作原理:
+  deque内部有个中控器，维护每段缓冲区中的内容，缓冲区中存放真实数据
+  中控器维护的是每个缓冲区的地址，使得使用deque时像一片连续的内存空间
+
+deque容器的迭代器也是支持随机访问的
+
+3.3.2 deque构造函数
+函数原型：
+deque<T> deqT;                      //默认构造形式
+deque(beg, end);                  //构造函数将[beg, end)区间中的元素拷贝给本身。
+deque(n, elem);                    //构造函数将n个elem拷贝给本身。
+deque(const deque &deq);   //拷贝构造函数
+
+补充：
+  就是说如果我们对一个容器建立了一个迭代器it，其实我们是可以通过it来更改容器中
+  的元素的。比如说*it = 100;然后所以我们可以用const_iterator来防止更改
+  比如：
+  void print(const list<int> &l){  // 传参的时候可以加上这个const,或者不加，毕竟权限缩小是允许的
+    for (list<int>::const_iterator it = l.begin(); it != l.end(); it++) cout << *it <<" ";
+    cout << endl;
+  }
+
+3.3.3 deque赋值操作
+函数原型：
+ deque& operator=(const deque &deq);  //重载等号操作符
+ assign(beg, end);   //将[beg, end)区间中的数据拷贝赋值给本身。
+ assign(n, elem);    //将n个elem拷贝赋值给本身。
+
+3.3.4 deque大小操作
+函数原型：
+deque.empty(); //判断容器是否为空
+deque.size(); //返回容器中元素的个数
+deque.resize(num); //重新指定容器的长度为num,若容器变长，则以默认值填充新位置。
+  ​			           //如果容器变短，则末尾超出容器长度的元素被删除。
+deque.resize(num, elem); //重新指定容器的长度为num,若容器变长，则以elem值填充新位置。
+
+3.3.5 deque 插入和删除
+  函数原型：
+  两端插入操作：
+  push_back(elem); //在容器尾部添加一个数据
+  push_front(elem); //在容器头部插入一个数据
+  pop_back(); //删除容器最后一个数据
+  pop_front(); //删除容器第一个数据
+  指定位置操作：
+  insert(pos,elem); //在pos位置插入一个elem元素的拷贝，返回新数据的位置。
+  insert(pos,n,elem); //在pos位置插入n个elem数据，无返回值。
+  insert(pos,beg,end); //在pos位置插入[beg,end)区间的数据，无返回值。
+  clear(); //清空容器的所有数据
+  erase(beg,end); //删除[beg,end)区间的数据，返回下一个数据的位置。
+  erase(pos); //删除pos位置的数据，返回下一个数据的位置。
+
+3.3.6 deque 数据存取
+  函数原型：
+  at(int idx);     //返回索引idx所指的数据
+  operator[];      //返回索引idx所指的数据
+  front();           //返回容器中第一个数据元素
+  back();           //返回容器中最后一个数据元素
+
+3.3.7  deque 排序
+算法：
+  #include <algorithm>
+  sort(iterator beg, iterator end)  // 对左闭右开的区间内的元素进行排序
+  // 对支持随机访问的迭代器的容器都支持sort算法，如vector
+    sort(l1.begin(), l1.end()); // 不要写成l1.sort(l1.begin(), l1.end());
+    
