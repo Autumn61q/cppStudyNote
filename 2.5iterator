@@ -43,3 +43,17 @@ void test01(){
     //遍历方式3：利用STL中提供的遍历算法for_each.需要包含算法的头文件algorithm
     for_each(v.begin(),v.end(),myPrint)；//myPrint()不用写括号   //这个调用myPrint是一个callback(回调)
 }
+
+多说几句：
+    正向迭代器iterator：从容器起始位置开始遍历元素，++就是向后移， --是向前移
+    
+        for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
+            std::cout << *it << " ";
+        }
+    
+    
+    反向迭代器reverse_iterator：从容器最后一个元素的后面一个位置开始遍历元素，++就是向前移， --是向后移
+    
+        for (std::vector<int>::reverse_iterator it = v.rbegin(); it != v.rend(); ++it) {
+            std::cout << *it << " ";
+        }
