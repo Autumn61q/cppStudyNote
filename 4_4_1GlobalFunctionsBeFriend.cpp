@@ -28,7 +28,7 @@ void jiaojiao(Building &home){
 //but you can not write like this :cannot create a object and then access the private attributes in friend, you can only access
 // void jiaojiao(){
 //     Building home;
-//     cout<<home.bedroom<<endl;
+//     cout<<home.bedroom<<endl; // of course, you can also change the value of bedroom
 // }
 int main(){
     Building q;
