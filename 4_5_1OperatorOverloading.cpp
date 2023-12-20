@@ -30,9 +30,9 @@ int main(){
     Test t1,t2;
     //本质：Test t3=t1.operator+(t2);
     Test t3=t1+t2;
-    cout<<t3.A<<endl;
+    cout<<t3.A<<endl; // print 15
     t1.A=9;
-    cout<<t3.A<<endl;
+    cout<<t3.A<<endl; // print 15
     return 0;
 }
 
