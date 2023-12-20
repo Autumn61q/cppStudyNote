@@ -16,7 +16,7 @@ int main(){
     p2.age=2;
     p3.age=3;
     // //如何在vector里面放类对象
-    // vector<Person> v={p1,p2,p3};//p1,p2,p3必须要初始化才能加在vector里面
+    // vector<Person> v={p1,p2,p3};//p1,p2,p3必须要初始化才能加在vector里面 // 这个等号可写可不写
     // for(vector<Person>::iterator it=v.begin();it!=v.end();it++) cout<<(*it).age<<endl;
     // //或者
     // for(vector<Person>::iterator it=v.begin();it!=v.end();it++) cout<<it->age<<endl;
